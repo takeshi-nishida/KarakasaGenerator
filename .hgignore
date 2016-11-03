@@ -1,0 +1,11 @@
+syntax: glob
+
+.vs/*
+bin/*
+node_modules/*
+obj/*
+typings/*
+*.js.map
+*.csproj
+*.csproj.user
+*.sln

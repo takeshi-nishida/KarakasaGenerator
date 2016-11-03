@@ -1,0 +1,16 @@
+﻿{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "declaration": false,
+    "noEmitOnError": true,
+    "removeComments": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
