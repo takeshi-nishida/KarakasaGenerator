@@ -1,0 +1,15 @@
+{
+  "name": "karakasa-gen",
+  "version": "0.1.0",
+  "description": "A web-page to create, download and tweet karakasa-renpanjo images.",
+  "main": "bundle.js",
+  "scripts": {
+    "test": "webpack"
+  },
+  "author": "Takeshi Nishida",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "karakasa-svg": "^0.1.0"
+  }
+}
