@@ -1,17 +1,26 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 
 <html lang="ja">
 <head>
     <meta charset="utf-8" />
-    <title>傘連判状ジェネレーター</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>傘連判状画像ジェネレーター</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <link rel="stylesheet" href="app.css" type="text/css" />
-    <script src="bundle.js"></script>
+    <style>
+        .drop-shadow {
+            -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+            box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        }
+    </style>
 </head>
 <body class="container-fluid">
-    <h1>傘連判状ジェネレーター</h1>
-    <p>名前とメッセージを入力すると傘連判状が作成でき，画像として保存したり，ツイートしたりすることができます．
-    使用している傘連判状ライブラリ karakasa-svg は <a href="https://github.com/takeshi-nishida/karakasa-svg">GitHub</a> にあります．</p>
+    <h1>傘連判状画像ジェネレーター <small>&copy;<a href="https://twitter.com/takeshi_nishida">西田 健志</a></small></h1>
+    <p>
+        名前とメッセージを入力すると傘連判状が作成でき，画像として保存したり，ツイートしたりすることができます．
+        使用している傘連判状ライブラリ karakasa-svg は <a href="https://github.com/takeshi-nishida/karakasa-svg">GitHub</a> にあります．
+
+    </p>
 
     <div class="panel panel-primary">
         <div class="panel-heading">情報入力</div>
@@ -20,42 +29,73 @@
                 <label for="inputNames">名前 (カンマで区切ってください)</label>
                 <input type="text" class="form-control" id="inputNames" />
             </div>
+            <div class="form-group">
+                <label for="inputMessage">主張 (改行位置にカンマ)</label>
+                <input type="text" class="form-control" id="inputMessage" />
+            </div>
             <div class="form-group row">
-                <div class="col-md-4">
-                    <label for="inputMessage">メッセージ (改行位置にカンマ)</label>
-                    <input type="text" class="form-control" id="inputMessage" />
+                <div class="col-sm-4">
+                    <label for="inputSize">幅と高さ</label>
+                    <input type="number" class="form-control" id="inputSize" value="280" />
                 </div>
-                <div class="col-md-2">
-                    <label for="inputWidth">幅</label>
-                    <input type="number" class="form-control" id="inputWidth" value="280" />
-                </div>
-                <div class="col-md-2">
-                    <label for="inputHeight">高さ</label>
-                    <input type="number" class="form-control" id="inputHeight" value="280" />
-                </div>
-                <div class="col-md-2">
-                    <label for="inputFontSize">フォントサイズ（名前）</label>
+                <div class="col-sm-4">
+                    <label for="inputFontSize">文字サイズ（名前）</label>
                     <input type="number" class="form-control" id="inputFontSize" value="12" />
                 </div>
-                <div class="col-md-2">
-                    <label for="inputMessageSize">フォントサイズ（メッセージ）</label>
+                <div class="col-sm-4">
+                    <label for="inputMessageSize">文字サイズ（主張）</label>
                     <input type="number" class="form-control" id="inputMessageSize" value="16" />
                 </div>
             </div>
             <button id="createSVGButton" type="button" class="btn btn-primary">作成する</button>
+            <button id="keyakiButton" type="button" class="btn btn-success">革命、お待たせ。</button>
         </div>
     </div>
 
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            作成結果
-            <a id="downloadPNG" class="btn btn-default" download="karakasa.png">作成した画像をPNG形式で取得</a>
-            <a id="downloadSVG" class="btn btn-default" download="karakasa.svg">作成した画像をSVG形式で取得</a>
-            <a id="shareButton" class="btn btn-default">作成した画像をツイート</a>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="btn-group">
+                        <a id="downloadPNG" class="btn btn-default disabled" download="karakasa.png">保存(PNG)</a>
+                        <a id="downloadSVG" class="btn btn-default disabled" download="karakasa.svg">保存(SVG)</a>
+                        <a id="shareButton" class="btn btn-default disabled">画像をツイート</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="result"></div>
+                </div>
+            </div>
         </div>
-        <div class="panel-body">
-            <div id="result"></div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-body media">
+                    <div class="media-left">
+                        <a href="https://www.amazon.co.jp/dp/4802510306" target="_blank"><img class="media-object drop-shadow" width="100" src="http://www.bnn.co.jp/wp-bnn/wp-content/uploads/2016/10/9784802510301-81x120.gif" /></a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading"><a href="https://www.amazon.co.jp/dp/4802510306" target="_blank">消極性デザイン宣言 <small>消極的な人よ、声を上げよ。……いや、上げなくてよい。</small></a></h5>
+                        <p>工学・問題解決の視点から「誰もが消極的なまま生きていける環境をデザインしよう」と呼びかける本です。2章に「<strong>傘連判状</strong>を取り入れたチャットシステム」が登場。<ins class="hidden keyaki">消極的なメンバーが多い(?)という欅坂46のみなさんにもぜひ読んでほしい一冊。</ins></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default hidden keyaki">
+                <div class="panel-body media">
+                    <div class="media-left">
+                        <a href="http://www.byakuya-shobo.co.jp/page.php?id=5065" target="_blank"><img class="media-object drop-shadow" width="100" src="http://www.byakuya-shobo.co.jp/image.php?id=5064" /></a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading"><a href="http://www.byakuya-shobo.co.jp/page.php?id=5065" target="_blank">BRODY 2016年12月号</a></h5>
+                        <p>特集「欅坂46×武器」の破壊力で革命的完売を引き起こした雑誌。急きょ行われた渋谷TSUTAYAの展示ではメンバーによる<strong>傘連判状</strong>が展示された。</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="bundle.js"></script>
 </body>
 </html>

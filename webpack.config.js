@@ -4,13 +4,10 @@
 module.exports = {
     entry: "./app.js",
     output: {
-        filename: "./bundle.js"
-    },
-    module: {
-        loaders: [
-        ]
+        filename: "bundle.js",
+        path: __dirname
     },
     resolve: {
-        extensions: ['', '.js']
+        extensions: ['.js']
     }
 };

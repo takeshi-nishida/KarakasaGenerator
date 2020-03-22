@@ -1,0 +1,9 @@
+syntax: glob
+
+.vs/*
+bin/*
+node_modules/*
+obj/*
+*.js.map
+*.njsproj
+*.sln

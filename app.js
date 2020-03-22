@@ -1,14 +1,17 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var karakasa_svg_1 = require("karakasa-svg");
-var $ = require("jquery");
+var keyakiNames = ["平手 友梨奈", "小池 美波", "原田 葵", "佐藤 詩織", "菅井 友香", "斎藤 冬優花", "石森 虹花",
+    "渡邉 理佐", "上村 莉菜", "尾関 梨香", "織田 奈那", "渡辺 梨加", "土生 瑞穂", "今泉 佑唯",
+    "鈴本 美愉", "守屋 茜", "長濱 ねる", "志田 愛佳", "長沢 菜々香", "小林 由依", "米谷 奈々未"];
+var keyakiMessages = ["欅坂46", "革命、", "お待たせ"];
 var names = ["西田 健志", "西田 健志", "西田 健志", "西田 健志", "西田 健志", "西田 健志", "西田 健志", "西田 健志"];
 var messages = ["消極性", "デザイン", "宣言"];
 var base64data;
 window.onload = function () {
     var inputNames = $('#inputNames');
     var inputMessage = $('#inputMessage');
-    var inputWidth = $('#inputWidth');
-    var inputHeight = $('#inputHeight');
+    var inputSize = $('#inputSize');
     var inputFontSize = $('#inputFontSize');
     var inputMessageSize = $('#inputMessageSize');
     var downloadSVG = $('#downloadSVG');
@@ -16,12 +19,13 @@ window.onload = function () {
     var svgResult = $('#result');
     inputNames.val(names.join(","));
     inputMessage.val(messages.join());
-    $("#createSVGButton").click(function () {
-        var w = parseInt(inputWidth.val());
-        var h = parseInt(inputHeight.val());
+    var createKarakasa = function () {
+        var size = parseInt(inputSize.val());
         var s1 = parseInt(inputFontSize.val());
         var s2 = parseInt(inputMessageSize.val());
-        var svg = karakasa_svg_1.createKarakasaElement(w, h, inputNames.val().split(","), s1, inputMessage.val().split(","), s2);
+        var names = inputNames.val().split(",");
+        var messages = inputMessage.val().split(",");
+        var svg = karakasa_svg_1.createKarakasaElement(size, size, names, s1, messages, s2);
         svgResult.empty().append(svg);
         downloadSVG.attr("href", createSVGBlobURL(svgResult.html()));
         var c = createCanvas(svgResult.find(":only-child"));
@@ -35,6 +39,18 @@ window.onload = function () {
             downloadPNG.attr("href", base64data);
         };
         image.src = createSVGBlobURL(svgResult.html());
+        $(".btn").removeClass("disabled");
+    };
+    $("#createSVGButton").click(createKarakasa);
+    $("input[type='number']").change(createKarakasa);
+    $("#keyakiButton").click(function () {
+        inputNames.val(keyakiNames.join(","));
+        inputMessage.val(keyakiMessages.join(","));
+        inputSize.val(300);
+        inputFontSize.val(12);
+        inputMessageSize.val(24);
+        createKarakasa();
+        $(".keyaki").removeClass("hidden");
     });
     $("#shareButton").click(function () {
         var loading = $('<span id="loading" class="glyphicon glyphicon-refresh spinning"> </span>');
@@ -49,6 +65,7 @@ window.onload = function () {
             });
         }
     });
+    createKarakasa();
 };
 function createCanvas(e) {
     var c = document.createElement('canvas');
