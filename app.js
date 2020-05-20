@@ -80,7 +80,7 @@ function createSVGBlobURL(data) {
 }
 function imgurUpload(data, callback) {
     $.ajax({
-        url: 'https://api.imgur.com/3/upload',
+        url: 'https://api.imgur.com/3/image',
         type: 'POST',
         headers: {
             Authorization: 'Client-ID 07ac50654436ab9',
@@ -91,7 +91,7 @@ function imgurUpload(data, callback) {
             type: 'base64'
         },
         success: function (result) {
-            callback('https://imgur.com/gallery/' + result.data.id);
+            callback(result.data.link);
         }
     });
 }
